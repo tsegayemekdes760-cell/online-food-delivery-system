@@ -1,588 +1,193 @@
-# 🍔 Online Food Delivery System
+Online Food Delivery System
 
-A complete web-based **Online Food Delivery System** developed as an individual web development course project using **HTML, CSS, JavaScript, PHP, and MySQL**.
+Project Overview
 
-The system allows users to register, log in, browse available foods, add items to a shopping cart, place orders, and view their order history.
+The Online Food Delivery System is a PHP/MySQL web application
+developed as an individual Web Programming assignment. It allows
+customers to register, sign in, browse food, add items to a shopping
+cart, place orders, and view order history. An administrative order page
+allows orders to be monitored and their status to be changed.
 
----
+Main Features
 
-## 📌 Project Overview
+Home/landing page
 
-The **Online Food Delivery System** is designed to provide a simple and user-friendly platform for ordering food online.
+About page with student information
 
-Users can create an account, securely log in, browse the food menu, add food items to their cart, review their order, place an order, and view previously placed orders.
+Food menu with food images and prices
 
-This project demonstrates the integration of:
+User registration
 
-* Front-end web development
-* Client-side scripting
-* Server-side programming
-* Database management
-* User authentication
-* Session management
-* Shopping cart functionality
-* Order management
-* Git and GitHub version control
+Secure user login using PHP sessions
 
----
+Logout/session handling
 
-## 🎯 Project Objectives
+Shopping cart
 
-The main objectives of this project are to:
+Checkout and order placement
 
-1. Develop a complete multi-page functional website.
-2. Apply HTML for semantic webpage structure.
-3. Use CSS to create a clean and responsive user interface.
-4. Use JavaScript for client-side interaction and form validation.
-5. Use PHP for server-side processing.
-6. Connect PHP with a MySQL relational database.
-7. Implement user registration and login authentication.
-8. Use PHP sessions to manage logged-in users and shopping carts.
-9. Implement a functional food ordering system.
-10. Store customer orders and order items in a relational database.
-11. Practice Git and GitHub for source-code version control.
+Customer order history/dashboard
 
----
+Admin order management
 
-## 🛠️ Technologies Used
+Order status updates: Pending, Preparing, Delivered
 
-| Technology | Purpose                                        |
-| ---------- | ---------------------------------------------- |
-| HTML5      | Webpage structure and semantic markup          |
-| CSS3       | Styling, layout, and responsive design         |
-| JavaScript | Client-side interaction and validation         |
-| PHP        | Server-side programming and business logic     |
-| MySQL      | Relational database management                 |
-| XAMPP      | Local Apache and MySQL development environment |
-| Git        | Version control                                |
-| GitHub     | Source-code hosting and project repository     |
+Contact form
 
----
+MySQL/MariaDB database
 
-## ✨ Main Features
+Responsive CSS layout
 
-### 👤 User Authentication
+Client-side and server-side validation
 
-* User registration
-* User login
-* User logout
-* Session-based authentication
-* Protected user dashboard
-* User-specific order history
+Git/GitHub version control
 
-### 🍕 Food Menu
+Technologies
 
-Users can browse available food items, including:
+HTML5
 
-* Pizza
-* Burger
-* Pasta
-* Chicken
-* French Fries
+CSS3
 
-Each food item contains:
+JavaScript
 
-* Food name
-* Description
-* Price
-* Food image
-* Add to Cart option
+PHP 8+
 
-### 🛒 Shopping Cart
+MySQL/MariaDB
 
-The shopping cart allows users to:
+XAMPP
 
-* Add food items
-* View selected items
-* View quantity
-* Calculate item subtotal
-* Calculate total order amount
-* Remove items from the cart
+Git/GitHub
 
-### 📦 Order Management
+Project Structure
 
-Users can:
-
-* Review their order before checkout
-* Place an order
-* Store order information in the database
-* View previous orders
-* View order total
-* View order status
-* View order date
-
-### 📞 Contact Page
-
-The website provides contact information and a contact form where users can send messages.
-
-### ℹ️ About Page
-
-The About page provides information about the system, its purpose, mission, and services.
-
----
-
-## 📄 Website Pages
-
-The project contains the following main pages:
-
-| Page            | Description                  |
-| --------------- | ---------------------------- |
-| `index.php`     | Home page                    |
-| `about.php`     | About the system             |
-| `menu.php`      | Food menu                    |
-| `cart.php`      | Shopping cart                |
-| `checkout.php`  | Checkout and order placement |
-| `contact.php`   | Contact page                 |
-| `register.php`  | User registration            |
-| `login.php`     | User login                   |
-| `dashboard.php` | User dashboard               |
-| `orders.php`    | User order history           |
-| `logout.php`    | Logout functionality         |
-
----
-
-## 🗂️ Project Structure
-
-```text
 online-food-delivery/
-│
-├── image/
-│
+├── index.php
 ├── about.php
-├── add_to_cart.php
+├── menu.php
 ├── cart.php
 ├── checkout.php
 ├── contact.php
-├── dashboard.php
-├── db.php
-├── index.php
-├── login.php
-├── logout.php
-├── menu.php
-├── orders.php
 ├── register.php
-├── remove_from_cart.php
+├── login.php
+├── dashboard.php
+├── logout.php
+├── admin_orders.php
+├── update_order.php
+├── db.php
+├── online_food_delivery.sql
 ├── README.md
-│
-└── ...
-```
+└── image/
+    ├── pizza.jpg
+    ├── burger.jpg
+    ├── pasta.jpg
+    ├── chicken.jpg
+    └── fries.jpg
 
----
+Database
 
-## 🗄️ Database
+Database name: online_food_delivery
 
-The project uses a MySQL database named:
+The database supports users, food products, orders, order items, and
+contact-message functionality used by the application.
 
-```text
-online_food_delivery
-```
+The SQL export is included as online_food_delivery.sql.
 
-### Main Database Tables
+Local Installation with XAMPP
 
-#### `users`
+1. Start XAMPP
 
-Stores registered user information.
+Start: - Apache - MySQL
 
-Example fields:
+2. Copy the project
 
-```text
-id
-name
-email
-password
-created_at
-```
+Place the project folder in:
 
-#### `foods`
-
-Stores available food products.
-
-Example fields:
-
-```text
-id
-name
-description
-price
-image
-created_at
-```
-
-#### `orders`
-
-Stores customer order information.
-
-Example fields:
-
-```text
-id
-user_id
-total_amount
-status
-created_at
-```
-
-#### `order_items`
-
-Stores individual food items belonging to each order.
-
-Example fields:
-
-```text
-id
-order_id
-food_id
-quantity
-price
-```
-
-### Database Relationships
-
-```text
-users
-  │
-  │ 1
-  │
-  │
-  │ many
-orders
-  │
-  │ 1
-  │
-  │
-  │ many
-order_items
-  │
-  │ many
-  │
-  │ 1
-foods
-```
-
----
-
-## 🔐 User Authentication Flow
-
-The authentication process works as follows:
-
-```text
-Register
-   ↓
-Login
-   ↓
-Session Created
-   ↓
-Dashboard
-   ↓
-Browse Menu
-   ↓
-Add Food to Cart
-   ↓
-Checkout
-   ↓
-Place Order
-   ↓
-Order Saved in Database
-   ↓
-View Orders
-```
-
----
-
-## 🛒 Food Ordering Flow
-
-```text
-User
- │
- ├── Register / Login
- │
- ├── Browse Food Menu
- │
- ├── Add Food to Cart
- │
- ├── View Cart
- │
- ├── Checkout
- │
- ├── Place Order
- │
- └── View Order History
-```
-
----
-
-## 💻 Requirements
-
-To run this project locally, you need:
-
-* Windows, Linux, or macOS
-* XAMPP
-* Apache
-* MySQL
-* PHP
-* Web browser
-* Git (optional, for version control)
-
----
-
-## ⚙️ Installation and Setup
-
-### Step 1: Install XAMPP
-
-Download and install XAMPP.
-
-Start:
-
-```text
-Apache
-MySQL
-```
-
-from the XAMPP Control Panel.
-
----
-
-### Step 2: Copy the Project
-
-Place the project folder inside the XAMPP `htdocs` directory.
-
-Example:
-
-```text
 C:\xampp\htdocs\online-food-delivery
-```
 
----
-
-### Step 3: Create the Database
-
-Open phpMyAdmin:
-
-```text
-http://localhost:8080/phpmyadmin/
-```
-
-Create a database named:
-
-```text
-online_food_delivery
-```
-
-Then create/import the required tables:
-
-```text
-users
-foods
-orders
-order_items
-```
-
----
-
-### Step 4: Configure Database Connection
+3. Create/import the database
 
 Open:
 
-```text
-db.php
-```
+http://localhost:8080/phpmyadmin
 
-Configure the database connection according to your local MySQL settings.
+Create a database named:
 
-Example:
+online_food_delivery
 
-```php
-<?php
+Import:
 
-$conn = new mysqli(
-    "localhost",
-    "root",
-    "",
-    "online_food_delivery"
-);
+online_food_delivery.sql
 
-if ($conn->connect_error) {
-    die("Database connection failed: " . $conn->connect_error);
-}
-?>
-```
+4. Database connection
 
----
+The connection is configured in db.php.
 
-### Step 5: Run the Project
+Default XAMPP configuration: - Host: localhost - Username: root -
+Password: empty - Database: online_food_delivery
 
-Open the browser and visit:
+5. Run the project
 
-```text
+Open:
+
 http://localhost:8080/online-food-delivery/
-```
 
-The home page should appear.
+System Workflow
 
----
+Customer registers through Register.
 
-## 🧪 Testing
+Customer signs in through Login.
 
-The following functionality has been implemented and tested:
+Customer opens Menu and selects food.
 
-* [x] User registration
-* [x] User login
-* [x] User logout
-* [x] Dashboard
-* [x] Food menu
-* [x] Add to cart
-* [x] View cart
-* [x] Remove from cart
-* [x] Checkout
-* [x] Place order
-* [x] Save order to database
-* [x] Save order items to database
-* [x] View order history
-* [x] About page
-* [x] Contact page
+Selected food is stored in the session cart.
 
----
+Customer reviews the cart and opens Checkout.
 
-## 🔒 Security Considerations
+Checkout creates an order and its order items in MySQL.
 
-The project applies several basic web security practices, including:
+The cart is cleared after successful order placement.
 
-* PHP sessions for authentication
-* Prepared SQL statements
-* Server-side validation
-* Client-side form validation
-* Password hashing for user passwords
-* Protection of authenticated pages
-* HTML output escaping where appropriate
+Customer views the order from Dashboard → My Orders.
 
----
+Admin updates the order from Pending to Preparing or
+Delivered.
 
-## 📱 Responsive Design
+The updated status appears in the customer's dashboard.
 
-The website is designed to provide a user-friendly interface across different screen sizes, including:
+Security and Validation
 
-* Desktop computers
-* Laptops
-* Tablets
-* Mobile devices
+Passwords are handled using PHP password hashing in the
+authentication workflow.
 
-CSS media queries can be used to adjust layouts for different screen sizes.
+PHP sessions are used to maintain logged-in users.
 
----
+Prepared statements are used for database queries where applicable.
 
-## 🔄 Git and GitHub
+Server-side validation is used for important form processing.
 
-Git is used for version control and GitHub is used to host the project source code.
+Client-side validation can improve form usability.
+
+Database credentials are kept in db.php.
+
+GitHub
 
 Repository:
-
-**Online Food Delivery System**
-
-```text
 https://github.com/tsegayemekdes760-cell/online-food-delivery-system
-```
 
-Basic Git workflow:
+Student Information
 
-```bash
-git add .
-git commit -m "Update project"
-git push
-```
+Full Name: Mekdes Tsegaye
 
----
+ID Number: MECS/045/16
+Department: Cs
 
-## 🎓 Course Learning Outcomes
+Assignment
 
-This project demonstrates the following learning outcomes:
+Course: CoSc3091 -- Web Programming
+Project: Online Food Delivery System
+Type: Individual Assignment I
 
-### HTML
+Test Account
 
-* Semantic HTML structure
-* Multi-page website development
-* Forms
-* Navigation
-* Tables and content organization
-
-### CSS
-
-* Page styling
-* Layout design
-* Responsive design
-* Navigation styling
-* Form and button styling
-
-### JavaScript
-
-* Client-side interaction
-* DOM manipulation
-* Form validation
-* User interface behavior
-
-### PHP
-
-* Server-side processing
-* Sessions
-* Authentication
-* Form processing
-* Database connectivity
-* CRUD-related operations
-
-### MySQL
-
-* Relational database design
-* Tables
-* Primary keys
-* Foreign keys
-* Relationships
-* SQL queries
-
-### Git/GitHub
-
-* Repository initialization
-* Commits
-* Branch management
-* Remote repository
-* GitHub push and version control
-
----
-
-## 🚀 Future Improvements
-
-Possible future improvements include:
-
-* Admin dashboard
-* Admin food management
-* Order status management
-* Online payment integration
-* Food search functionality
-* Food categories
-* User profile management
-* Email notifications
-* Restaurant management
-* Delivery tracking
-* Improved responsive mobile interface
-
----
-
-## 👩‍💻 Author
-
-**Mekdes Tsegaye**
-
-Individual Web Development Course Project
-
----
-
-## 📜 License
-
-This project was developed for educational and academic purposes.
-
----
-
-## 🙏 Acknowledgment
-
-This project was developed as part of a web development course to demonstrate practical knowledge of:
-
-**HTML + CSS + JavaScript + PHP + MySQL + Git/GitHub**
-
-Thank you for reviewing this project.
+For evaluation, create a test account using the Register page. Do not
+publish a real personal password in this README.
