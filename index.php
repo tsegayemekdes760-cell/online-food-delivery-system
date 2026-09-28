@@ -407,7 +407,7 @@ $loggedIn = isset($_SESSION["user_id"]);
 
         <div class="food-card">
 
-            <img src="image/chicken654JPG.jpg"
+            <img src="image/chicken.jpg"
                  alt="Chicken">
 
             <h3>Chicken</h3>
