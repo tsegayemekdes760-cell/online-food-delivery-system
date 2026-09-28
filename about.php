@@ -1,19 +1,21 @@
 <?php
 session_start();
-
-$isLoggedIn = isset($_SESSION["user_id"]);
-$userName = $_SESSION["user_name"] ?? "";
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>About Us - Online Food Delivery</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -22,208 +24,246 @@ $userName = $_SESSION["user_name"] ?? "";
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f5f5f5;
-            color: #333;
         }
 
         .navbar {
             background: #ff6600;
-            padding: 18px 40px;
+            color: white;
+            padding: 18px 30px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
+        .navbar h2 {
+            margin: 0;
         }
 
-        .nav-links a {
+        .navbar a {
             color: white;
             text-decoration: none;
-            margin-left: 18px;
+            margin-left: 20px;
         }
 
-        .nav-links a:hover {
-            text-decoration: underline;
-        }
-
-        .hero {
-            background: #ff6600;
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .hero h1 {
-            font-size: 42px;
-            margin: 0 0 15px;
-        }
-
-        .hero p {
-            font-size: 18px;
-        }
-
-        .content {
+        .container {
             width: 90%;
             max-width: 1000px;
-            margin: 40px auto;
+            margin: 50px auto;
         }
 
-        .card {
+        .about-box {
             background: white;
-            padding: 30px;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 8px #ccc;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #ddd;
         }
 
-        .card h2 {
+        h1 {
+            text-align: center;
             color: #ff6600;
-            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 25px;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .student-info {
+            background: #fff3e8;
+            padding: 20px;
+            border-left: 5px solid #ff6600;
+            border-radius: 6px;
+        }
+
+        .student-info p {
+            margin: 10px 0;
+        }
+
+        .student-info strong {
+            color: #333;
         }
 
         .features {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(200px, 1fr)
-            );
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+            margin-top: 25px;
         }
 
         .feature {
-            background: white;
-            padding: 25px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
             text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 0 8px #ccc;
         }
 
         .feature h3 {
             color: #ff6600;
         }
 
-        .footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .navbar a {
+                margin-left: 8px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            .about-box {
+                padding: 20px;
+            }
         }
+
     </style>
+
 </head>
 
 <body>
 
 <div class="navbar">
 
-    <div class="logo">
-        Online Food Delivery
-    </div>
+    <h2>Online Food Delivery</h2>
 
-    <div class="nav-links">
+    <div>
 
         <a href="index.php">Home</a>
-        <a href="about.php">About</a>
+
         <a href="menu.php">Menu</a>
 
-        <?php if ($isLoggedIn): ?>
+        <a href="about.php">About</a>
 
-            <a href="cart.php">Cart</a>
-            <a href="dashboard.php">Dashboard</a>
-            <a href="logout.php">Logout</a>
+        <a href="contact.php">Contact</a>
 
-        <?php else: ?>
+        <a href="cart.php">Cart</a>
 
-            <a href="register.php">Register</a>
-            <a href="login.php">Login</a>
+        <a href="dashboard.php">Dashboard</a>
 
-        <?php endif; ?>
+        <a href="logout.php">Logout</a>
 
     </div>
 
 </div>
 
 
-<section class="hero">
+<div class="container">
 
-    <h1>About Our Food Delivery</h1>
+    <div class="about-box">
 
-    <p>
-        Delicious food, easy ordering, and convenient delivery.
-    </p>
-
-</section>
+        <h1>About Online Food Delivery</h1>
 
 
-<div class="content">
+        <h2>Student Information</h2>
 
-    <div class="card">
+        <div class="student-info">
 
-        <h2>Who We Are</h2>
+            <p>
+                <strong>Full Name:</strong>
+                Mekdes Tsegaye
+            </p>
+
+            <p>
+                <strong>ID Number:</strong>
+                MECS/045/16
+            </p>
+
+            <p>
+                <strong>Department:</strong>
+                Computer Science
+            </p>
+
+        </div>
+
+
+        <h2>About Me</h2>
 
         <p>
-            Online Food Delivery is a web-based food ordering system
-            that allows customers to browse food items, add products
-            to their cart, and place orders online.
+            My name is Mekdes Tsegaye. I am a student interested
+            in web development, programming, database systems,
+            and modern technology. I enjoy learning how websites
+            are designed and how different technologies work
+            together to create useful applications.
         </p>
 
         <p>
-            Our system makes food ordering simple, fast, and convenient.
-            Customers can create an account, log in securely, select
-            their favorite food, and complete their order.
+            I chose this Online Food Delivery System project
+            because food ordering is a common service that can
+            benefit from an easy-to-use online platform. This
+            project also gives me an opportunity to apply HTML,
+            CSS, JavaScript, PHP, and MySQL skills in one complete
+            web application.
         </p>
 
-    </div>
 
-
-    <div class="card">
-
-        <h2>Our Mission</h2>
+        <h2>About the System</h2>
 
         <p>
-            Our mission is to provide a simple and user-friendly
-            online food ordering experience where customers can
-            easily find and order their favorite meals.
+            The Online Food Delivery System is a web-based
+            application that allows customers to browse available
+            food items, add food to a shopping cart, place orders,
+            and view their order history.
         </p>
 
-    </div>
+        <p>
+            The system also provides an administration function
+            for managing customer orders and updating order
+            statuses such as Pending, Preparing, and Delivered.
+        </p>
 
 
-    <div class="card">
-
-        <h2>What We Provide</h2>
+        <h2>System Features</h2>
 
         <div class="features">
 
             <div class="feature">
+
                 <h3>🍕 Food Menu</h3>
+
                 <p>
-                    Browse different food items and prices.
+                    Browse available food items and their prices.
                 </p>
+
             </div>
 
+
             <div class="feature">
+
                 <h3>🛒 Shopping Cart</h3>
+
                 <p>
-                    Add your favorite food and manage quantities.
+                    Add food items and review your order before
+                    checkout.
                 </p>
+
             </div>
 
-            <div class="feature">
-                <h3>📦 Easy Ordering</h3>
-                <p>
-                    Place orders quickly through the checkout page.
-                </p>
-            </div>
 
             <div class="feature">
-                <h3>🔐 Secure Login</h3>
+
+                <h3>📦 Order Tracking</h3>
+
                 <p>
-                    Register and log in using your personal account.
+                    View orders and their current status.
                 </p>
+
             </div>
 
         </div>
@@ -232,14 +272,6 @@ $userName = $_SESSION["user_name"] ?? "";
 
 </div>
 
-
-<div class="footer">
-
-    <p>
-        &copy; 2026 Online Food Delivery. All rights reserved.
-    </p>
-
-</div>
-
 </body>
+
 </html>

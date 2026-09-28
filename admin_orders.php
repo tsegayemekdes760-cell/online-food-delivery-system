@@ -1,52 +1,24 @@
-```php
 <?php
 session_start();
 include "db.php";
 
-$admin_email = "tsegayemekdes760@gmail.com";
-
-if (!isset($_SESSION["user_id"]) || $_SESSION["email"] !== $admin_email) {
+/* Check login */
+if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit();
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
-    $order_id = intval($_POST["order_id"]);
-    $status = $_POST["status"];
-
-    $allowed_statuses = [
-        "Pending",
-        "Preparing",
-        "Delivered",
-        "Cancelled"
-    ];
-
-    if (in_array($status, $allowed_statuses, true)) {
-
-        $stmt = $conn->prepare(
-            "UPDATE orders SET status = ? WHERE id = ?"
-        );
-
-        $stmt->bind_param("si", $status, $order_id);
-        $stmt->execute();
-    }
-
-    header("Location: admin_orders.php");
-    exit();
-}
-
+/* Get all orders */
 $sql = "
-    SELECT
-        orders.id,
-        users.name,
-        users.email,
+    SELECT 
+        orders.id AS order_id,
+        users.name AS customer_name,
         orders.total_amount,
         orders.status,
         orders.created_at
     FROM orders
-    INNER JOIN users ON orders.user_id = users.id
-    ORDER BY orders.created_at DESC
+    JOIN users ON orders.user_id = users.id
+    ORDER BY orders.id DESC
 ";
 
 $result = $conn->query($sql);
@@ -56,289 +28,191 @@ $result = $conn->query($sql);
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Admin - Order History</title>
+    <title>Admin Orders - Online Food Delivery</title>
 
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #333;
+            background: #f5f5f5;
+            margin: 0;
         }
 
-        .header {
-            background: #222;
+        .navbar {
+            background: #ff6600;
             color: white;
-            padding: 20px 40px;
+            padding: 18px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .header h1 {
+        .navbar h2 {
             margin: 0;
-            font-size: 24px;
         }
 
-        .logout {
+        .navbar a {
             color: white;
             text-decoration: none;
-            background: #e74c3c;
-            padding: 10px 16px;
-            border-radius: 6px;
+            margin-left: 20px;
         }
 
         .container {
-            width: 95%;
-            max-width: 1200px;
+            width: 90%;
             margin: 40px auto;
         }
 
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-            overflow-x: auto;
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 850px;
-        }
-
-        th,
-        td {
-            padding: 14px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
+            background: white;
+            box-shadow: 0 0 10px #ddd;
         }
 
         th {
-            background: #f1f1f1;
+            background: #333;
+            color: white;
+            padding: 14px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
         }
 
         tr:hover {
-            background: #fafafa;
+            background: #f9f9f9;
         }
 
-        .status-form {
-            display: flex;
-            gap: 8px;
+        .status {
+            font-weight: bold;
         }
 
-        select {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+        .pending {
+            color: #ff9800;
         }
 
-        button {
-            padding: 8px 12px;
-            border: none;
-            background: #28a745;
+        .preparing {
+            color: #2196f3;
+        }
+
+        .delivered {
+            color: #28a745;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 7px 10px;
+            margin: 2px;
             color: white;
-            border-radius: 5px;
-            cursor: pointer;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
         }
 
-        button:hover {
-            opacity: 0.9;
+        .pending-btn {
+            background: #ff9800;
         }
 
-        .empty {
-            text-align: center;
-            padding: 30px;
+        .preparing-btn {
+            background: #2196f3;
         }
 
-        @media (max-width: 700px) {
-
-            .header {
-                padding: 15px;
-            }
-
-            .container {
-                width: 98%;
-                margin: 20px auto;
-            }
-
-            .card {
-                padding: 12px;
-            }
+        .delivered-btn {
+            background: #28a745;
         }
-
     </style>
 
 </head>
 
 <body>
 
-<div class="header">
+<div class="navbar">
 
-    <h1>Admin - Order History</h1>
+    <h2>Online Food Delivery - Admin</h2>
 
-    <a href="logout.php" class="logout">
-        Logout
-    </a>
+    <div>
+        <a href="dashboard.php">Dashboard</a>
+        <a href="logout.php">Logout</a>
+    </div>
 
 </div>
 
 <div class="container">
 
-    <div class="card">
+    <h1>Manage Orders</h1>
 
-        <?php if ($result && $result->num_rows > 0): ?>
+    <table>
 
-            <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Update Status</th>
+        </tr>
 
-                <thead>
+        <?php while ($order = $result->fetch_assoc()): ?>
 
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Customer</th>
-                        <th>Email</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                        <th>Update</th>
-                    </tr>
+            <tr>
 
-                </thead>
+                <td>
+                    #<?php echo $order["order_id"]; ?>
+                </td>
 
-                <tbody>
+                <td>
+                    <?php echo htmlspecialchars($order["customer_name"]); ?>
+                </td>
 
-                <?php while ($order = $result->fetch_assoc()): ?>
+                <td>
+                    <?php echo number_format($order["total_amount"], 2); ?> Birr
+                </td>
 
-                    <tr>
+                <td class="status">
 
-                        <td>
-                            #<?php echo $order["id"]; ?>
-                        </td>
+                    <?php echo htmlspecialchars($order["status"]); ?>
 
-                        <td>
-                            <?php echo htmlspecialchars($order["name"]); ?>
-                        </td>
+                </td>
 
-                        <td>
-                            <?php echo htmlspecialchars($order["email"]); ?>
-                        </td>
+                <td>
+                    <?php echo $order["created_at"]; ?>
+                </td>
 
-                        <td>
-                            <?php echo number_format(
-                                $order["total_amount"], 2
-                            ); ?> Birr
-                        </td>
+                <td>
 
-                        <td>
-                            <?php echo htmlspecialchars(
-                                $order["status"]
-                            ); ?>
-                        </td>
+                    <a class="btn pending-btn"
+                       href="update_order.php?id=<?php echo $order["order_id"]; ?>&status=Pending">
+                        Pending
+                    </a>
 
-                        <td>
-                            <?php echo htmlspecialchars(
-                                $order["created_at"]
-                            ); ?>
-                        </td>
+                    <a class="btn preparing-btn"
+                       href="update_order.php?id=<?php echo $order["order_id"]; ?>&status=Preparing">
+                        Preparing
+                    </a>
 
-                        <td>
+                    <a class="btn delivered-btn"
+                       href="update_order.php?id=<?php echo $order["order_id"]; ?>&status=Delivered">
+                        Delivered
+                    </a>
 
-                            <form method="POST"
-                                  class="status-form">
+                </td>
 
-                                <input
-                                    type="hidden"
-                                    name="order_id"
-                                    value="<?php echo $order["id"]; ?>"
-                                >
+            </tr>
 
-                                <select name="status">
+        <?php endwhile; ?>
 
-                                    <option value="Pending"
-                                        <?php
-                                        echo $order["status"] === "Pending"
-                                            ? "selected"
-                                            : "";
-                                        ?>>
-                                        Pending
-                                    </option>
-
-                                    <option value="Preparing"
-                                        <?php
-                                        echo $order["status"] === "Preparing"
-                                            ? "selected"
-                                            : "";
-                                        ?>>
-                                        Preparing
-                                    </option>
-
-                                    <option value="Delivered"
-                                        <?php
-                                        echo $order["status"] === "Delivered"
-                                            ? "selected"
-                                            : "";
-                                        ?>>
-                                        Delivered
-                                    </option>
-
-                                    <option value="Cancelled"
-                                        <?php
-                                        echo $order["status"] === "Cancelled"
-                                            ? "selected"
-                                            : "";
-                                        ?>>
-                                        Cancelled
-                                    </option>
-
-                                </select>
-
-                                <button type="submit">
-                                    Update
-                                </button>
-
-                            </form>
-
-                        </td>
-
-                    </tr>
-
-                <?php endwhile; ?>
-
-                </tbody>
-
-            </table>
-
-        <?php else: ?>
-
-            <div class="empty">
-
-                <h2>No Orders Found</h2>
-
-                <p>
-                    There are currently no customer orders.
-                </p>
-
-            </div>
-
-        <?php endif; ?>
-
-    </div>
+    </table>
 
 </div>
 
 </body>
-
 </html>
-```
