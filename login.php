@@ -1,3 +1,4 @@
+```php
 <?php
 session_start();
 include "db.php";
@@ -10,10 +11,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     if (empty($email) || empty($password)) {
+
         $message = "Please enter your email and password.";
+
     } else {
 
-        $stmt = $conn->prepare("SELECT id, name, email, password FROM users WHERE email = ?");
+        $stmt = $conn->prepare(
+            "SELECT id, name, email, password, role
+             FROM users
+             WHERE email = ?"
+        );
+
         $stmt->bind_param("s", $email);
         $stmt->execute();
 
@@ -28,16 +36,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["user_id"] = $user["id"];
                 $_SESSION["user_name"] = $user["name"];
                 $_SESSION["user_email"] = $user["email"];
+                $_SESSION["role"] = $user["role"];
 
+                /* Admin */
+                if ($user["role"] === "admin") {
+
+                    header("Location: admin_orders.php");
+                    exit();
+
+                }
+
+                /* Customer */
                 header("Location: dashboard.php");
                 exit();
 
             } else {
+
                 $message = "Incorrect password.";
+
             }
 
         } else {
+
             $message = "Email not found.";
+
         }
 
         $stmt->close();
@@ -47,21 +69,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Login - Food Delivery</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: #f2f2f2;
             margin: 0;
-            padding: 0;
         }
 
         .login-box {
             width: 350px;
+            max-width: 90%;
             margin: 80px auto;
             background: white;
             padding: 30px;
@@ -78,7 +110,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 100%;
             padding: 12px;
             margin: 8px 0;
-            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         button {
@@ -89,6 +122,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border: none;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 16px;
+            margin-top: 10px;
         }
 
         button:hover {
@@ -104,7 +139,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         p {
             text-align: center;
         }
+
     </style>
+
 </head>
 
 <body>
@@ -114,9 +151,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h2>Login</h2>
 
     <?php if ($message != ""): ?>
+
         <div class="message">
             <?php echo htmlspecialchars($message); ?>
         </div>
+
     <?php endif; ?>
 
     <form method="POST" action="">
@@ -135,7 +174,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             required
         >
 
-        <button type="submit">Login</button>
+        <button type="submit">
+            Login
+        </button>
 
     </form>
 
@@ -148,3 +189,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
+```
