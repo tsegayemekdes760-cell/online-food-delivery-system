@@ -1,20 +1,23 @@
-```php
 <?php
 session_start();
 
-$isLoggedIn = isset($_SESSION["user_id"]);
-$userName = $_SESSION["user_name"] ?? "";
+$loggedIn = isset($_SESSION["user_id"]);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Online Food Delivery</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -26,133 +29,232 @@ $userName = $_SESSION["user_name"] ?? "";
             color: #333;
         }
 
+        /* Navigation */
+
         .navbar {
             background: #ff6600;
-            padding: 18px 40px;
+            padding: 18px 30px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
         }
 
-        .logo {
+        .navbar h2 {
+            margin: 0;
             color: white;
-            font-size: 24px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
             font-weight: bold;
         }
 
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .nav-links a:hover {
+        .navbar a:hover {
             text-decoration: underline;
         }
 
+        /* Hero */
+
         .hero {
-            min-height: 500px;
+            min-height: 520px;
+
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+
             text-align: center;
-            padding: 50px 20px;
 
             background:
                 linear-gradient(
-                    rgba(255, 102, 0, 0.82),
-                    rgba(255, 102, 0, 0.82)
+                    rgba(0,0,0,0.55),
+                    rgba(0,0,0,0.55)
                 ),
-                url("images/pizza.jpg") center/cover no-repeat;
+                url("image/pizza.jpg");
+
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-content {
             color: white;
-            max-width: 700px;
+            max-width: 750px;
+            padding: 30px;
         }
 
         .hero h1 {
-            font-size: 48px;
-            margin: 0 0 15px;
+            font-size: 50px;
+            margin-bottom: 20px;
         }
 
         .hero p {
             font-size: 20px;
-            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
         .btn {
             display: inline-block;
-            background: white;
-            color: #ff6600;
-            padding: 13px 25px;
+
+            background: #ff6600;
+            color: white;
+
+            padding: 14px 28px;
+            margin-top: 20px;
+
+            border-radius: 6px;
+
             text-decoration: none;
-            border-radius: 5px;
             font-weight: bold;
-            margin: 5px;
         }
 
         .btn:hover {
-            background: #f0f0f0;
+            background: #e65c00;
         }
 
-        .section {
-            padding: 50px 20px;
+        /* Food Images */
+
+        .food-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 50px auto;
+        }
+
+        .food-section h2 {
             text-align: center;
+            font-size: 32px;
+            margin-bottom: 30px;
+        }
+
+        .food-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            text-align: center;
+            box-shadow: 0 0 10px #ddd;
+            transition: 0.3s;
+        }
+
+        .food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px #ccc;
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .food-card h3 {
+            color: #ff6600;
+            font-size: 22px;
+            margin: 15px 0 8px;
+        }
+
+        .food-card p {
+            color: #666;
+            padding: 0 10px;
+            line-height: 1.4;
+        }
+
+        /* Features */
+
+        .section {
+            width: 90%;
+            max-width: 1100px;
+            margin: 50px auto;
         }
 
         .section h2 {
+            text-align: center;
             font-size: 32px;
             margin-bottom: 30px;
         }
 
         .features {
-            width: 90%;
-            max-width: 1000px;
-            margin: auto;
-
             display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(220px, 1fr));
-
-            gap: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
         }
 
-        .feature-card {
+        .feature {
             background: white;
-            padding: 30px 20px;
+            padding: 30px;
+            text-align: center;
+
             border-radius: 10px;
-            box-shadow: 0 0 8px #ccc;
+
+            box-shadow: 0 0 10px #ddd;
         }
 
-        .feature-card h3 {
+        .feature .icon {
+            font-size: 45px;
+        }
+
+        .feature h3 {
             color: #ff6600;
         }
 
-        .footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            margin-top: 30px;
+        .feature p {
+            line-height: 1.6;
+            color: #666;
         }
 
-        @media (max-width: 700px) {
+        /* CTA */
+
+        .cta {
+            background: white;
+            text-align: center;
+
+            padding: 45px 20px;
+            margin-top: 40px;
+        }
+
+        .cta h2 {
+            color: #ff6600;
+        }
+
+        /* Footer */
+
+        footer {
+            background: #222;
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+            margin-top: 50px;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 900px) {
+
+            .food-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 750px) {
 
             .navbar {
                 flex-direction: column;
                 gap: 15px;
-                text-align: center;
             }
 
-            .nav-links {
-                justify-content: center;
+            .navbar a {
+                margin-left: 8px;
+                font-size: 14px;
             }
 
             .hero h1 {
@@ -162,38 +264,53 @@ $userName = $_SESSION["user_name"] ?? "";
             .hero p {
                 font-size: 17px;
             }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .food-container {
+                grid-template-columns: 1fr;
+            }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
+
 <!-- Navigation -->
+
 <div class="navbar">
 
-    <div class="logo">
-        Online Food Delivery
-    </div>
+    <h2>🍴 Online Food Delivery</h2>
 
-    <div class="nav-links">
+    <div>
 
         <a href="index.php">Home</a>
-        <a href="about.php">About</a>
+
         <a href="menu.php">Menu</a>
 
-        <?php if ($isLoggedIn): ?>
+        <a href="about.php">About</a>
+
+        <a href="contact.php">Contact</a>
+
+        <?php if ($loggedIn): ?>
 
             <a href="cart.php">Cart</a>
-            <a href="orders.php">My Orders</a>
+
             <a href="dashboard.php">Dashboard</a>
-            <a href="contact.php">Contact</a>
+
             <a href="logout.php">Logout</a>
 
         <?php else: ?>
 
-            <a href="register.php">Register</a>
             <a href="login.php">Login</a>
-            <a href="contact.php">Contact</a>
+
+            <a href="register.php">Register</a>
 
         <?php endif; ?>
 
@@ -203,40 +320,120 @@ $userName = $_SESSION["user_name"] ?? "";
 
 
 <!-- Hero Section -->
+
 <section class="hero">
 
     <div class="hero-content">
 
-        <?php if ($isLoggedIn): ?>
-
-            <h1>
-                Welcome,
-                <?php echo htmlspecialchars($userName); ?>!
-            </h1>
-
-        <?php else: ?>
-
-            <h1>
-                Delicious Food Delivered To You
-            </h1>
-
-        <?php endif; ?>
+        <h1>
+            Delicious Food,
+            <br>
+            Delivered Fast!
+        </h1>
 
         <p>
-            Order your favorite food quickly and easily.
+            Order your favorite meals online
+            and enjoy fresh and delicious food
+            delivered directly to you.
         </p>
 
         <a href="menu.php" class="btn">
             Order Now
         </a>
 
-        <?php if (!$isLoggedIn): ?>
+    </div>
 
-            <a href="register.php" class="btn">
-                Create Account
-            </a>
+</section>
 
-        <?php endif; ?>
+
+<!-- Food Images Section -->
+
+<section class="food-section">
+
+    <h2>Popular Food</h2>
+
+    <div class="food-container">
+
+
+        <!-- Pizza -->
+
+        <div class="food-card">
+
+            <img src="image/pizza.jpg"
+                 alt="Pizza">
+
+            <h3>Pizza</h3>
+
+            <p>
+                Delicious cheese and tomato pizza.
+            </p>
+
+        </div>
+
+
+        <!-- Burger -->
+
+        <div class="food-card">
+
+            <img src="image/burger.jpg"
+                 alt="Burger">
+
+            <h3>Burger</h3>
+
+            <p>
+                Beef burger with fresh cheese.
+            </p>
+
+        </div>
+
+
+        <!-- Pasta -->
+
+        <div class="food-card">
+
+            <img src="image/pasta.jpg"
+                 alt="Pasta">
+
+            <h3>Pasta</h3>
+
+            <p>
+                Delicious Italian pasta.
+            </p>
+
+        </div>
+
+
+        <!-- Chicken -->
+
+        <div class="food-card">
+
+            <img src="image/chicken654JPG.jpg"
+                 alt="Chicken">
+
+            <h3>Chicken</h3>
+
+            <p>
+                Fried chicken with delicious spices.
+            </p>
+
+        </div>
+
+
+        <!-- French Fries -->
+
+        <div class="food-card">
+
+            <img src="image/fries.jpg"
+                 alt="French Fries">
+
+            <h3>French Fries</h3>
+
+            <p>
+                Crispy golden French fries.
+            </p>
+
+        </div>
+
 
     </div>
 
@@ -244,42 +441,53 @@ $userName = $_SESSION["user_name"] ?? "";
 
 
 <!-- Features -->
+
 <section class="section">
 
     <h2>Why Choose Us?</h2>
 
     <div class="features">
 
-        <div class="feature-card">
-            <h3>🍕 Fresh Food</h3>
+        <div class="feature">
+
+            <div class="icon">🍕</div>
+
+            <h3>Delicious Food</h3>
 
             <p>
-                Enjoy delicious and freshly prepared food.
+                Enjoy a variety of delicious
+                and freshly prepared meals.
             </p>
+
         </div>
 
-        <div class="feature-card">
-            <h3>🚚 Fast Delivery</h3>
+
+        <div class="feature">
+
+            <div class="icon">🛒</div>
+
+            <h3>Easy Ordering</h3>
 
             <p>
-                Get your favorite meals delivered quickly.
+                Browse our menu, add your
+                favorite food to the cart,
+                and place your order easily.
             </p>
+
         </div>
 
-        <div class="feature-card">
-            <h3>🛒 Easy Ordering</h3>
+
+        <div class="feature">
+
+            <div class="icon">🚚</div>
+
+            <h3>Fast Delivery</h3>
 
             <p>
-                Choose your food, add it to cart, and order easily.
+                Get your favorite food delivered
+                quickly and conveniently.
             </p>
-        </div>
 
-        <div class="feature-card">
-            <h3>🔒 Secure Account</h3>
-
-            <p>
-                Your registration and login are securely managed.
-            </p>
         </div>
 
     </div>
@@ -287,15 +495,39 @@ $userName = $_SESSION["user_name"] ?? "";
 </section>
 
 
-<!-- Footer -->
-<div class="footer">
+<!-- Call To Action -->
+
+<section class="cta">
+
+    <h2>Ready to Order?</h2>
 
     <p>
-        &copy; 2026 Online Food Delivery. All rights reserved.
+        Explore our menu and choose
+        your favorite food today!
     </p>
 
-</div>
+    <a href="menu.php" class="btn">
+        View Food Menu
+    </a>
+
+</section>
+
+
+<!-- Footer -->
+
+<footer>
+
+    <p>
+        &copy; 2026 Online Food Delivery System
+    </p>
+
+    <p>
+        Developed by Mekdes Tsegaye
+    </p>
+
+</footer>
+
 
 </body>
+
 </html>
-```
