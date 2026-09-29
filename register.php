@@ -410,14 +410,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <p>
-
-        Already have an account?
-
-        <a href="login.php">
-            Login
-        </a>
-
-    </p>
+Already have an account?
+    <p>
+    
+    <a href="login.php"><strong>Login</strong></a>
+</p>
 
 
 </div>

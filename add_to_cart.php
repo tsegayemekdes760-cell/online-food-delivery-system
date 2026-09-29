@@ -1,53 +1,31 @@
 <?php
 session_start();
-include "db.php";
 
-if (!isset($_GET["id"])) {
-    die("Food ID is missing.");
+if (!isset($_GET['id'])) {
+    header("Location: menu.php");
+    exit();
 }
 
-$food_id = (int) $_GET["id"];
+$food_id = (int)$_GET['id'];
 
-$stmt = $conn->prepare(
-    "SELECT id, name, price, image FROM foods WHERE id = ?"
-);
-
-$stmt->bind_param("i", $food_id);
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-if ($result->num_rows === 0) {
-    die("Food not found.");
+if ($food_id <= 0) {
+    header("Location: menu.php");
+    exit();
 }
 
-$food = $result->fetch_assoc();
-
-if (!isset($_SESSION["cart"])) {
-    $_SESSION["cart"] = [];
+// Create cart
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
 }
 
-if (isset($_SESSION["cart"][$food_id])) {
-    $_SESSION["cart"][$food_id]++;
+// Add food or increase quantity
+if (isset($_SESSION['cart'][$food_id])) {
+    $_SESSION['cart'][$food_id]++;
 } else {
-    $_SESSION["cart"][$food_id] = 1;
+    $_SESSION['cart'][$food_id] = 1;
 }
 
-/* TEST */
-echo "<h2>Food added successfully!</h2>";
-
-echo "<pre>";
-print_r($_SESSION["cart"]);
-echo "</pre>";
-
-echo '<a href="cart.php">Go to Cart</a>';
+// Go to cart
+header("Location: cart.php");
+exit();
 ?>
-if (!isset($_SESSION["user_id"])) {
-    header("Location: login.php");
-    exit();
-}
-
-if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "admin") {
-    header("Location: dashboard.php");
-    exit();
-}
